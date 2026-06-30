@@ -52,4 +52,4 @@ The modular structure of this project is designed for easy expansion:
 - **MediaPipe crashes / very slow:** Ensure your environment supports the required libraries and that your camera isn't locked by another app.
 - **Matrix looks glitchy/wrong colors:** Change the `COLOR_ORDER` inside `matrix.h` (some matrices use `RGB` instead of `GRB`).
 
-# !May have small glitches
+`!May have small glitches`
