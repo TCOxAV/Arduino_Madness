@@ -1,10 +1,8 @@
 # 8x8 RGB Matrix Wiring Notes
 
-Made this so i stop forgetting how i wired stuff after 2 days 😭
+Made this so I stop forgetting how I wired everything after like 2 days
 
-Every time i disconnect everything to "clean up the desk", i somehow end up spending 30 minutes figuring out where the data wire went.
-
-So here's the notes.
+Every single time I disconnect stuff to "clean up the desk," I end up spending 30 minutes later trying to remember where the data wire went. So here's the notes, finally.
 
 ---
 
@@ -18,39 +16,39 @@ Purpose:
 * Runs the code
 * Uploads sketches through USB
 
-Typical Current Draw:
+Typical current draw:
 
 ```text
 ~50mA to 70mA
 ```
 
-Nothing fancy. Just a normal Uno.
+Nothing fancy, just a normal Uno.
 
 ---
 
 ## 8x8 WS2812B RGB Matrix
 
-Specifications:
+Specs:
 
 * 64 individually addressable RGB LEDs
-* Controlled using a single data line
-* Each LED can display its own color
+* Controlled over a single data line
+* Each LED can be set to its own color independently
 
-Current Draw:
+Current draw:
 
 ```text
-LEDs Off                 -> Very Low
-Typical Animations       -> ~200mA to 800mA
-Full White Full Bright   -> Up to ~3.8A
+LEDs off                 -> basically nothing
+Typical animations       -> ~200mA to 800mA
+Full white, full bright  -> up to ~3.8A
 ```
 
-Calculation:
+Where that number comes from:
 
 ```text
 64 LEDs × 60mA = 3840mA ≈ 3.8A
 ```
 
-I almost never run full white at maximum brightness tho. Its stupidly bright and honestly hurts ur eyes after a bit.
+I almost never actually run full white at max brightness though. It's stupidly bright and kind of hurts to look at after a few seconds.
 
 ---
 
@@ -65,10 +63,10 @@ Usually enough for:
 
 * Snake
 * Aquarium
-* Matrix Rain
+* Matrix rain
 * Fireworks
 * Text scrolling
-* Random animations i made at 2AM
+* Whatever random animation I made at 2AM
 
 ---
 
@@ -76,31 +74,20 @@ Usually enough for:
 
 ## Matrix → Arduino
 
-| Matrix Pin | Arduino Pin              |
-| ---------- | ------------------------ |
-| DIN        | Any Digital Pin (D2-D13) |
-| VCC / 5V   | 5V                       |
-| GND        | GND                      |
+| Matrix Pin | Arduino Pin               |
+| ---------- | -------------------------- |
+| DIN        | Any digital pin (D2–D13)   |
+| VCC / 5V   | 5V                          |
+| GND        | GND                         |
 
-The data line DOES NOT have to be D6.
+The data line does **not** have to be D6.
 
-Most examples use D6 simply becoz thats what the author happened to connect.
+Most tutorials use D6 just because that's what the author happened to wire up.
 
-These pins all work:
+Any of these work fine:
 
 ```text
-D2
-D3
-D4
-D5
-D6
-D7
-D8
-D9
-D10
-D11
-D12
-D13
+D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13
 ```
 
 Examples:
@@ -127,31 +114,27 @@ Arduino 5V  --------> VCC
 Arduino GND --------> GND
 ```
 
-All are valid.
+All valid — just make sure the code actually matches the wire.
 
-Just make sure the code matches the actual wire.
-
-Example:
-
-If DIN is connected to D6:
+If DIN is on D6:
 
 ```cpp
 #define LED_PIN 6
 ```
 
-If DIN is connected to D10:
+If DIN is on D10:
 
 ```cpp
 #define LED_PIN 10
 ```
 
-If DIN is connected to D3:
+If DIN is on D3:
 
 ```cpp
 #define LED_PIN 3
 ```
 
-This is probably one of the easiest mistakes to make when ur tired.
+Probably one of the easiest mistakes to make when you're tired and just copy-pasting.
 
 ---
 
@@ -160,29 +143,20 @@ This is probably one of the easiest mistakes to make when ur tired.
 Some Arduino pins support PWM:
 
 ```text
-D3
-D5
-D6
-D9
-D10
-D11
+D3, D5, D6, D9, D10, D11
 ```
 
-For WS2812B matrices, PWM support generally doesn't matter.
+For WS2812B matrices, this doesn't actually matter. FastLED generates the timing signal itself in software, so both PWM and non-PWM digital pins work fine.
 
-FastLED generates the required signal itself.
-
-So both PWM and non-PWM digital pins work.
-
-The important part is:
+All that actually matters:
 
 ```text
-Physical Wire
+Physical wire
       ↕
-LED_PIN in Program
+LED_PIN in code
 ```
 
-If those match, ur good.
+As long as those two agree, you're good.
 
 ---
 
@@ -190,43 +164,29 @@ If those match, ur good.
 
 ## 330Ω Resistor (Required)
 
->Can be given as 330E or 330R if u have those assorted resistor box
-
->Color Code: Orange, Orange, Brown, Gold/Brown
+> Sometimes labeled 330E or 330R in assorted resistor kits
+>> Color code: Orange, Orange, Brown, Gold/Brown
 
 Purpose:
 
-* Protects the first LED.
-* Helps reduce signal ringing.
-* Helps prevent signal spikes.
-* Recommended in basically every WS2812B guide.
+* Protects the first LED
+* Helps reduce signal ringing
+* Helps prevent signal spikes
+* Recommended in basically every WS2812B guide out there
 
 Connection:
 
 ```text
-Arduino Digital Pin
+Arduino digital pin
         |
        330Ω
         |
        DIN
 ```
 
-Current:
+Current through it is tiny — it's just on the signal line, not power.
 
-```text
-Very small
-Signal line only
-```
-
-Even though the Arduino is only outputting 5V, i still consider this required.
-
-Sure, plenty of people run without it.
-
-Plenty of people also come back later wondering why their first LED randomly started acting weird.
-
-A resistor costs almost nothing and takes like 10 seconds to install.
-
-Might as well do it properly.
+Even though the Arduino only outputs 5V, I still treat this as required. Plenty of people skip it and it works fine... until their first LED starts acting weird for no obvious reason. Resistor costs pennies and takes 10 seconds to add, so might as well.
 
 ---
 
@@ -236,9 +196,9 @@ Might as well do it properly.
 
 Purpose:
 
-* Helps absorb startup power surges.
-* Helps stabilize power.
-* Can prevent voltage dips during large brightness changes.
+* Absorbs startup power surges
+* Helps stabilize the power line
+* Can prevent voltage dips during big brightness changes
 
 Connection:
 
@@ -247,102 +207,88 @@ Connection:
        1000µF
 ```
 
-Observe polarity.
+Watch polarity.
 
-### When I'd Use It
+### When I'd actually use one
 
 * External power supply
 * High brightness
-* Lots of white LEDs
-* Large matrices
-* Long LED strips
+* Lots of white pixels
+* Bigger matrices / longer strips
 
-### When I Probably Wouldn't Worry About It
+### When I wouldn't bother
 
 * Small 8x8 matrix
 * Lower brightness
 * USB power
 * Normal animations
 
-For this kind of setup, many people run without one and never have issues.
-
-So i consider it optional, but definitely a nice thing to have.
+For a setup like mine, most people run without one and never run into problems. So — optional, but nice to have if you're scaling up.
 
 ---
 
 # Brightness
 
-Typical setting:
+Typical setting I use:
 
 ```cpp
 FastLED.setBrightness(80);
 ```
 
-Reasons:
+Why:
 
-* Less power consumption
+* Less power draw
 * Less heat
 * Easier on the eyes
-* USB power is usually enough
+* USB power is usually enough at this level
 
-Also prevents accidental retinal damage when u upload the wrong sketch.
+Also saves you from accidental retinal damage the one time you upload the wrong sketch.
 
 ---
 
 # Power Recommendations
 
-## USB Only
+## USB only
 
 Usually fine for:
 
 * Snake
 * Aquarium
-* Matrix Rain
+* Matrix rain
 * Fireworks
-* Text Effects
+* Text effects
 * Most experiments
 
----
+## External power supply
 
-## External Power Supply
-
-Recommended when:
+Worth using when:
 
 * Running high brightness
-* Large amounts of white
+* Lots of white
 * Bigger matrices
 * Long LED strips
 
-Suggested Supply:
+Suggested:
 
 ```text
-5V
-5A or greater preferred
+5V, 5A or more
 ```
 
-More available current is fine.
+More available current than you need is totally fine — the LEDs only pull what they actually need.
 
-The LEDs only draw what they need.
+## Ground sharing
 
----
-
-## Ground Sharing
-
-Important.
-
-If using an external power supply:
+Important one. If you're using an external supply:
 
 ```text
-Power Supply GND
+Power supply GND
         |
 Arduino GND
         |
 Matrix GND
 ```
 
-All grounds should be connected together.
-
-Otherwise u enter the fun debugging phase where absolutely nothing makes sense.
+All grounds need to be tied together, or you enter the fun debugging phase where nothing makes sense anymore.
 
 ---
 
@@ -351,8 +297,8 @@ Otherwise u enter the fun debugging phase where absolutely nothing makes sense.
 My code assumes:
 
 ```text
-Top Left     = (0,0)
-Bottom Right = (7,7)
+Top left     = (0,0)
+Bottom right = (7,7)
 ```
 
 Layout:
@@ -381,28 +327,18 @@ Layout:
 
 # Matrix Wiring Layout Types
 
-Not every RGB matrix is wired the same internally.
+Not every RGB matrix is wired the same way internally — this changes how the `XY()` function needs to work.
 
-This changes how the XY() function works.
+## Typewriter / Progressive layout
 
----
-
-## Typewriter / Progressive Layout
-
-This is what my matrix uses.
-
-Rows continue in the same direction.
-
-Example:
+This is what my matrix uses. Rows all continue in the same direction.
 
 ```text
 0   1   2   3
 4   5   6   7
-8   9  10  11
-12 13 14 15
+8   9   10  11
+12  13  14  15
 ```
-
-Example function:
 
 ```cpp
 int XY(int x, int y) {
@@ -410,34 +346,22 @@ int XY(int x, int y) {
 }
 ```
 
----
+## Serpentine layout
 
-## Serpentine Layout
-
-Probably the most common layout online.
-
-Rows alternate direction.
-
-Example:
+Probably the most common layout you'll find online. Rows alternate direction.
 
 ```text
 0   1   2   3
 7   6   5   4
-8   9  10  11
-15 14 13 12
+8   9   10  11
+15  14  13  12
 ```
 
-Needs a different XY() function.
+Needs a different `XY()` function.
 
----
+## Column-major layout
 
-## Column-Major Layout
-
-Less common.
-
-Wired by columns instead of rows.
-
-Example:
+Less common — wired by columns instead of rows.
 
 ```text
 0   4   8  12
@@ -446,26 +370,25 @@ Example:
 3   7  11  15
 ```
 
-Also needs a different XY() function.
+Also needs its own `XY()` function.
 
 ---
 
 # Current Build
 
-Current hardware:
+Hardware:
 
 * Arduino Uno
-* 8x8 WS2812B RGB Matrix
-* USB Cable
-* Jumper Wires
-* 330Ω Resistor
+* 8x8 WS2812B RGB matrix
+* USB cable (For data and power)
+* Barrel Jack  (If usb cant handle the more need of power)
+* Jumper wires
+* 330Ω resistor
 
 Optional:
 
-* 1000µF Capacitor
+* 1000µF capacitor
 
-Current status:
+Status: works.
 
-Works.
-
-Every time i learn a new FastLED function, i somehow end up making another animation instead of finishing whatever project i originally started.
+Every time I learn a new FastLED function I somehow end up making another animation instead of finishing whatever project I originally started.
