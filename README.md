@@ -13,11 +13,7 @@ No particular theme here. If I build something and it runs, it ends up in a fold
 
 ## What's in here
 
-| Folder | What it is |
-|---|---|
-| [`8x8_RGB_LED_Matrix`](./8x8_RGB_LED_Matrix) | WS2812B 8×8 LED matrix animations — snake AI, digital rain, police lights |
-
-More folders coming as I build more things.
+My projects, what else? I didnt make this MD file just so u can read and go. So get in each folders and try each one of them. I will add more programs for specific types of modules/sensors/PCBs/whatever.
 
 ---
 
@@ -25,14 +21,14 @@ More folders coming as I build more things.
 
 Everything here is built around the **Arduino Uno R3**. 32 KB flash, 2 KB SRAM, no FPU, single core. It's not the most powerful board out there but it's what I have, and working within its limits is half the fun.
 
-As the repo grows, the component list will too — LEDs, displays, accelerometers, whatever I get to next. Each folder has its own README with the specifics.
+As the repo grows, the component list will too — LEDs, displays, accelerometers, whatever I get to next. Each folder has its own wiring.md with the specifics.
 
 ---
 
 ## General setup
 
 1. Download or clone the repo
-2. Open the folder you're interested in and read its README first
+2. Open the folder you're interested in and read its wiring.md first
 3. Install whatever libraries the sketch needs via the Arduino IDE Library Manager
 4. Wire everything up using the circuit diagram included in that folder
 5. Upload and see what happens
